@@ -19,20 +19,21 @@ if (url === '/message' && method === 'POST') {
     })
     req.on('end',()=>{
         const parsedBody= Buffer.concat(body).toString();
-        console.log(parsedBody);
+        const message= parsedBody.split('=')[1];
+        fs.writeFileSync('message.txt', message,(err)=>{
+          res.statusCode = 302;
+          res.setHeader('Location', '/');
+          return res.end();
+        });
     })
-    fs.writeFileSync('message.txt', 'DUMMY');
-    res.statusCode = 302;
-    res.setHeader('Location', '/');
-    return res.end();
   }
 
     res.setHeader('Content-Type','text/html')
     res.write('<html>')
-    res.write('<head><title>Title</title></head>');
+    res.write('<head><title>Title of node js</title></head>');
     res.write('<body><h1>Heading</h1></body>');
     res.write('<html>');
      res.end();
 })
 server.listen(3000)
-console.log('runing');
+console.log('running');
